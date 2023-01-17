@@ -18,4 +18,8 @@ public class Parameter {
     @JsonIgnore
     @OneToMany(mappedBy = "parameter")
     private List<Measurement> measurementList;
+
+    public Parameter(String name) {
+        this.name = name;
+    }
 }
