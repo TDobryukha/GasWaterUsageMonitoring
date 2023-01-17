@@ -1,5 +1,6 @@
 package com.example.gasWaterUsageMonitoring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Parameter {
     @Id
-    // @GeneratedValue
     private String name;
+    @JsonIgnore
     @OneToMany(mappedBy = "parameter")
     private List<Measurement> measurementList;
 }

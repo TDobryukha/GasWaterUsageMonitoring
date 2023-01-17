@@ -1,10 +1,17 @@
 package com.example.gasWaterUsageMonitoring.controller;
 
+import com.example.gasWaterUsageMonitoring.entity.Measurement;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.gasWaterUsageMonitoring.service.MeasurementService;
 
+import java.util.List;
+import javax.validation.Valid;
+import java.util.UUID;
+
+
 @RestController
+@RequestMapping("api/measurement")
 public class MeasurementController {
     private final MeasurementService measurementService;
 
@@ -13,7 +20,17 @@ public class MeasurementController {
         this.measurementService = measurementService;
     }
 
-//    @PostMapping("add")
-//    public void addMeasurement()
+    @PostMapping("add")
+    public String addMeasurement(@Valid @RequestBody Measurement measurement) {
+        measurement.getParameter().setName(measurement.getParameter().getName().toLowerCase());
+        long result = measurementService.save(measurement).getId();
+        return "{\"id\": " + result + "}";
+    }
+
+    @GetMapping("history")
+    public List<Measurement> printHistory(@Valid @RequestParam UUID id) {
+        return measurementService.findAllByUser(id);
+
+    }
 
 }
