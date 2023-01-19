@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Measurement {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "userId")
