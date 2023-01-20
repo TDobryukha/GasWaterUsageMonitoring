@@ -1,5 +1,6 @@
 package com.example.gasWaterUsageMonitoring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Role implements GrantedAuthority {
     private String name;
     //@Transient
     @ManyToMany(mappedBy = "roles", cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Set<User> users;
 
     public Role(String name) {
@@ -32,4 +34,5 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return getName();
     }
+
 }

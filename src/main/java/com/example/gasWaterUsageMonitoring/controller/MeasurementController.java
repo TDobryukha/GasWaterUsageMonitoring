@@ -1,12 +1,12 @@
 package com.example.gasWaterUsageMonitoring.controller;
 
 import com.example.gasWaterUsageMonitoring.entity.Measurement;
+import com.example.gasWaterUsageMonitoring.service.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.example.gasWaterUsageMonitoring.service.MeasurementService;
 
-import java.util.List;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 

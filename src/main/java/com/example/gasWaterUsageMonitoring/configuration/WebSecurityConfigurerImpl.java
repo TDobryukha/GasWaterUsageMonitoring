@@ -25,17 +25,18 @@ public class WebSecurityConfigurerImpl extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService)
                 .passwordEncoder(encoder);
         auth.inMemoryAuthentication()
-                .withUser("Tanya").password(encoder.encode("123")).roles("ADMIN")
+                .withUser("Admin").password(encoder.encode("123")).roles("ADMIN")
                 .and().withUser("User").password(encoder.encode("123")).roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/h2-console/**").hasRole("ADMIN")
                 .mvcMatchers("/registration").permitAll()
-                .mvcMatchers("/add", "/history").hasAnyRole("ADMIN", "USER")
-                .mvcMatchers("/user", "/measurement").hasRole("Admin")
+                .antMatchers("/h2-console/**").hasRole("ADMIN")
+                .mvcMatchers("/api/measurement/add").hasAnyRole("USER")
+                .mvcMatchers("/api/measurement/history").hasAnyRole("ADMIN", "USER")
+                .mvcMatchers("/api/user/**", "/api/measurement/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .and()

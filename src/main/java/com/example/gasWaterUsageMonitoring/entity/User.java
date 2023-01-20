@@ -1,5 +1,6 @@
 package com.example.gasWaterUsageMonitoring.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,11 +34,12 @@ public class User implements UserDetails {
     private Set<Role> roles;
     @Transient
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Measurement> measurementList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-          return getRoles();
+        return getRoles();
     }
 
     @Override
@@ -64,4 +66,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

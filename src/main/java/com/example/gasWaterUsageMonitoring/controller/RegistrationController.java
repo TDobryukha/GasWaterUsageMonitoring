@@ -3,13 +3,12 @@ package com.example.gasWaterUsageMonitoring.controller;
 import com.example.gasWaterUsageMonitoring.entity.User;
 import com.example.gasWaterUsageMonitoring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
