@@ -28,10 +28,12 @@ public class User implements UserDetails {
     @NotBlank
     @Size(min = 4, message = "User name should contain at least 4 symbols")
     private String username;
+
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
+
     @Transient
     @OneToMany(mappedBy = "user")
     @JsonIgnore
