@@ -1,17 +1,19 @@
 package com.example.gasWaterUsageMonitoring.controller;
 
 import com.example.gasWaterUsageMonitoring.dto.MeasurementDto;
-import com.example.gasWaterUsageMonitoring.entity.User;
+import com.example.gasWaterUsageMonitoring.dto.UserDto;
+import com.example.gasWaterUsageMonitoring.exception.NotFoundException;
 import com.example.gasWaterUsageMonitoring.service.MeasurementService;
 import com.example.gasWaterUsageMonitoring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -27,13 +29,17 @@ public class AdminController {
     }
 
     @GetMapping("user")
-    public List<User> findAll() {
+    public List<UserDto> findAll() {
         return userService.findAll();
     }
 
     @GetMapping("user/{id}")
-    public Optional<User> findUserById(@PathVariable UUID id) {
-        return userService.findById(id);
+    public ResponseEntity<UserDto> findUserById(@PathVariable UUID id) {
+        try {
+            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @GetMapping("user/{id}/history")

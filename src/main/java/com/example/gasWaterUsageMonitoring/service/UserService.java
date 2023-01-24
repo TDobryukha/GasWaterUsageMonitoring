@@ -1,7 +1,10 @@
 package com.example.gasWaterUsageMonitoring.service;
 
+import com.example.gasWaterUsageMonitoring.convertor.UserConverter;
+import com.example.gasWaterUsageMonitoring.dto.UserDto;
 import com.example.gasWaterUsageMonitoring.entity.Role;
 import com.example.gasWaterUsageMonitoring.entity.User;
+import com.example.gasWaterUsageMonitoring.exception.NotFoundException;
 import com.example.gasWaterUsageMonitoring.repository.RoleRepository;
 import com.example.gasWaterUsageMonitoring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +14,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final RoleRepository roleRepository;
+    private final UserConverter userConverter;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository, UserConverter userConverter) {
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.roleRepository = roleRepository;
+        this.userConverter = userConverter;
     }
 
     public User save(User user) {
@@ -38,12 +46,16 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public Optional<User> findById(UUID id) {
-        return userRepository.findById(id);
+    public UserDto findById(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not found"));
+        return userConverter.convertToDto(user);
     }
 
-    public List<User> findAll() {
-        return (List<User>) userRepository.findAll();
+    public List<UserDto> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(userConverter::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
