@@ -5,9 +5,10 @@ import com.example.gasWaterUsageMonitoring.dto.UserDto;
 import com.example.gasWaterUsageMonitoring.entity.Role;
 import com.example.gasWaterUsageMonitoring.entity.User;
 import com.example.gasWaterUsageMonitoring.exception.NotFoundException;
+import com.example.gasWaterUsageMonitoring.exception.UserAlreadyExists;
 import com.example.gasWaterUsageMonitoring.repository.RoleRepository;
 import com.example.gasWaterUsageMonitoring.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
@@ -26,19 +28,11 @@ public class UserService implements UserDetailsService {
     private final RoleRepository roleRepository;
     private final UserConverter userConverter;
 
-    @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository, UserConverter userConverter) {
-        this.userRepository = userRepository;
-        this.encoder = encoder;
-        this.roleRepository = roleRepository;
-        this.userConverter = userConverter;
-    }
 
     public User save(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
-
         if (userFromDB != null) {
-            return null;
+            throw new UserAlreadyExists("User already exists");
         }
         Role role = roleRepository.findByName("ROLE_USER");
         user.setRoles(Collections.singleton(role));

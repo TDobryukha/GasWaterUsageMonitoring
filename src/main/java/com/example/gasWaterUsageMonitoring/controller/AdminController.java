@@ -5,7 +5,7 @@ import com.example.gasWaterUsageMonitoring.dto.UserDto;
 import com.example.gasWaterUsageMonitoring.exception.NotFoundException;
 import com.example.gasWaterUsageMonitoring.service.MeasurementService;
 import com.example.gasWaterUsageMonitoring.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,17 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/admin")
 public class AdminController {
     private final UserService userService;
     private final MeasurementService measurementService;
-
-    @Autowired
-    public AdminController(UserService userService, MeasurementService measurementService) {
-        this.userService = userService;
-        this.measurementService = measurementService;
-    }
 
     @GetMapping("user")
     public List<UserDto> findAll() {
@@ -36,7 +31,7 @@ public class AdminController {
     @GetMapping("user/{id}")
     public ResponseEntity<UserDto> findUserById(@PathVariable UUID id) {
         try {
-            return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
+            return ResponseEntity.ok(userService.findById(id));
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

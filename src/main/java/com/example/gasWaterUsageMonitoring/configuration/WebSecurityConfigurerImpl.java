@@ -1,7 +1,7 @@
 package com.example.gasWaterUsageMonitoring.configuration;
 
 import com.example.gasWaterUsageMonitoring.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,15 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfigurerImpl extends WebSecurityConfigurerAdapter {
-    UserService userService;
-    PasswordEncoder encoder;
-
-    @Autowired
-    public WebSecurityConfigurerImpl(UserService userService, PasswordEncoder encoder) {
-        this.userService = userService;
-        this.encoder = encoder;
-    }
+    private final UserService userService;
+    private final PasswordEncoder encoder;
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
