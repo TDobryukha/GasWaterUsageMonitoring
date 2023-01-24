@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Repository
 public interface MeasurementRepository extends CrudRepository<Measurement, Long> {
-    //List<Measurement> findAllByUserId(UUID uuid);
+
     List<Measurement> findAllByParameterName(String str);
 
     List<Measurement> findAllByUserId(UUID id);

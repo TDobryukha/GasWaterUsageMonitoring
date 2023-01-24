@@ -3,15 +3,16 @@ package com.example.gasWaterUsageMonitoring.controller;
 import com.example.gasWaterUsageMonitoring.entity.User;
 import com.example.gasWaterUsageMonitoring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("api")
 public class RegistrationController {
 
     private final UserService userService;
@@ -26,13 +27,4 @@ public class RegistrationController {
         return userService.save(user).getId();
     }
 
-    @GetMapping("find")
-    public Optional<User> findUserById(@RequestParam UUID id) {
-        return userService.findById(id);
-    }
-
-    @GetMapping("findAll")
-    public List<User> findAll() {
-        return userService.findAll();
-    }
 }

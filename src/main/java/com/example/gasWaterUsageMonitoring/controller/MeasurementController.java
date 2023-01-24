@@ -1,5 +1,6 @@
 package com.example.gasWaterUsageMonitoring.controller;
 
+import com.example.gasWaterUsageMonitoring.dto.MeasurementDto;
 import com.example.gasWaterUsageMonitoring.entity.Measurement;
 import com.example.gasWaterUsageMonitoring.entity.User;
 import com.example.gasWaterUsageMonitoring.exception.NotFoundException;
@@ -21,7 +22,6 @@ public class MeasurementController {
     @Autowired
     public MeasurementController(MeasurementService measurementService) {
         this.measurementService = measurementService;
-
     }
 
     @PostMapping("add")
@@ -35,8 +35,7 @@ public class MeasurementController {
     }
 
     @GetMapping("history")
-    public List<Measurement> printHistory(@AuthenticationPrincipal User user) {
+    public List<MeasurementDto> printHistory(@AuthenticationPrincipal User user) {
         return measurementService.findAllByUser(user.getId());
     }
-
 }

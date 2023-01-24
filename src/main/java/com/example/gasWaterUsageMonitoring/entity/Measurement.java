@@ -1,6 +1,5 @@
 package com.example.gasWaterUsageMonitoring.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,7 +31,6 @@ public class Measurement {
     private double value;
 
     @UpdateTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
 }
